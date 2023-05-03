@@ -34,7 +34,7 @@ int main() {
     Client *cli2 = new Client("Rocher","Emmanuel","Nantes");
     Conseiller *cons = new Conseiller("Cottrel", "Yoan", "St. Nazaire");
     CompteStandard *compteSt = new CompteStandard(cli1, cons);
-    CompteEpargne *compteEp = new CompteEpargne(cli1, cons);
+    CompteEpargne *compteEp = new CompteEpargne(cli1, cons, 4.6);
     CompteLigne *compteLi = new CompteLigne(cli2, cons);
     
     cli1->ajouterCompte(compteSt);
@@ -81,11 +81,11 @@ int main() {
 
     cout << endl << "####Fonctions enfants#####" << endl;
     compteLi->consultationEnLigne();
-    compteEp->calculInteret();
+    std::cout << "Interets : " << compteEp->calculInteret() << endl;
 
     cout<< endl  << "####Suppression d'un compte#####" << endl;
     cli1->afficherComptes();
-    compteEp->consulterOperations();
+    //compteEp->consulterOperations();
     delete compteEp;
     std::cout << "nb comptes" << cli1->getListeCompte().size() <<endl;
     cli1->afficherComptes();

@@ -8,7 +8,7 @@
 class Compte;
 
 class Personne {
-    private :
+    protected :
         std::string nom, prenom, adresse;
         std::vector<Compte*> liste_compte;
         

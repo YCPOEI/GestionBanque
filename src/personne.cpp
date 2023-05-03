@@ -50,11 +50,11 @@ void Personne::afficherComptes(){
 }
 
 void Personne::supprimerCompte(Compte * compte){
-    for (size_t i=0;i<getListeCompte().size();i++){
-        if(getListeCompte()[i]==compte){
-            getListeCompte()[i]=nullptr;
-            std::cout << "Pointertodelete: " << getListeCompte()[i];
-            getListeCompte().erase(getListeCompte().begin() +i);
+    for (size_t i=0;i<liste_compte.size();i++){
+        if(liste_compte[i]==compte){
+            liste_compte[i]=nullptr;
+            std::cout << "Pointertodelete: " << this->liste_compte[i] << std::endl;
+            liste_compte.erase(liste_compte.begin() +i);
             break;
         }
     }
@@ -69,16 +69,17 @@ std::ostream& operator<<(std::ostream& Str, Personne& personne){
 */
 
 Client::~Client(){
-    for (size_t i=0;i<getListeCompte().size();i++){
-        delete &this->getListeCompte()[i];
+    for (Compte* cpt : liste_compte){
+        delete cpt;
     }
+    liste_compte.clear();
     std::cout << "Client supprime" << std::endl;
 }
 
 
 void Client::supprimerCompte(int index){
-    delete this->getListeCompte()[index];
-    this->getListeCompte().erase(getListeCompte().begin() + index,getListeCompte().begin() + index);
+    delete this->liste_compte[index];
+    this->getListeCompte().erase(getListeCompte().begin() + index);
 }
 
 /*

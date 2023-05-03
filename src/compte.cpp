@@ -119,15 +119,16 @@ Compte::Compte(Personne *client, Personne *conseiller) {
 
 Compte::~Compte() {
     std::cout << "Suppression du compte ..." << std::endl;
-    //historique.clear();
-    for(size_t i=0;i<this->historique.size(); i++){
+    
+    for(Operation* op : historique){
         //std::cout << "Test : " << this->historique[i] <<std::endl;
-        delete this->historique[i];
-        this->historique.erase(historique.begin() + i,historique.begin() + i);
+        delete op;
+        //this->historique.erase(historique.begin() + i);
 
     }
-    //this->getClient()->supprimerCompte(this);
-    this->getConseiller()->supprimerCompte(this);
+    historique.clear();
+    this->client->supprimerCompte(this);
+    //this->getConseiller()->supprimerCompte(this);
     std::cout << "Compte supprime" << std::endl;
 
 }
