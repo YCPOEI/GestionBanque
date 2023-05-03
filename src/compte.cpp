@@ -128,7 +128,7 @@ Compte::~Compte() {
     }
     historique.clear();
     this->client->supprimerCompte(this);
-    //this->getConseiller()->supprimerCompte(this);
+    this->conseiller->supprimerCompte(this);
     std::cout << "Compte supprime" << std::endl;
 
 }

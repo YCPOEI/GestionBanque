@@ -73,13 +73,14 @@ Client::~Client(){
         delete cpt;
     }
     liste_compte.clear();
+
     std::cout << "Client supprime" << std::endl;
 }
 
 
 void Client::supprimerCompte(int index){
     delete this->liste_compte[index];
-    this->getListeCompte().erase(getListeCompte().begin() + index);
+    this->liste_compte.erase(liste_compte.begin() + index);
 }
 
 /*
@@ -87,14 +88,14 @@ void Client::supprimerCompte(int index){
 */
 
 Conseiller::~Conseiller(){
-    for (size_t i=0;i<getListeCompte().size();i++){
-        getListeCompte()[i]->setConseiller(NULL);
+    for (size_t i=0;i<liste_compte.size();i++){
+        liste_compte[i]->setConseiller(NULL);
     }
     std::cout << "Conseiller supprime" << std::endl;
 }
 
 void Conseiller::supprimerCompte(int index){
-    this->getListeCompte().erase(getListeCompte().begin() + index,getListeCompte().begin() + index);
+    this->liste_compte.erase(liste_compte.begin() + index);
 }
 //void Conseiller::supprimerCompte(int index){
  //   this->liste_compte.erase(liste_compte.begin() + index,liste_compte.begin() + index);
