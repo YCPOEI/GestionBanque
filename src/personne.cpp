@@ -53,7 +53,7 @@ void Personne::supprimerCompte(Compte * compte){
     for (size_t i=0;i<liste_compte.size();i++){
         if(liste_compte[i]==compte){
             liste_compte[i]=nullptr;
-            std::cout << "Pointertodelete: " << this->liste_compte[i] << std::endl;
+            //std::cout << "Pointertodelete: " << this->liste_compte[i] << std::endl;
             liste_compte.erase(liste_compte.begin() +i);
             break;
         }
