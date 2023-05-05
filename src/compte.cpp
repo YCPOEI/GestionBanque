@@ -56,27 +56,27 @@ std::string currentDateTime() {
     return buffer;
 }
 
-Personne * Compte::getClient(){
+Client *  Compte::getClient(){
     return this->client;
 }
 
-Personne * Compte::getConseiller(){
+Conseiller *  Compte::getConseiller(){
     return this->conseiller;
 }
 
-void Compte::setConseiller(Personne * conseiller){
+void Compte::setConseiller(Conseiller *  conseiller){
     this->conseiller=conseiller;
 }
 
 
 void Compte::deposer(float n) {
     this->solde += n;
-    this->historique.push_back(new Operation(currentDateTime(),"Depot",n));
+    this->historique.push_back(Operation(currentDateTime(),"Depot",n));
 }
 
 void Compte::retirer(float n) {
     this->solde -= n;
-    this->historique.push_back(new Operation(currentDateTime(),"Retrait",-n));
+    this->historique.push_back(Operation(currentDateTime(),"Retrait",-n));
 
 }
 
@@ -92,47 +92,92 @@ float Compte::consulterSolde(void) {
 void Compte::consulterOperations(void) {
     std::cout << "Liste des operations : " << std::endl;
     for(size_t i=0;i<this->historique.size(); i++){
-        std::cout << *historique[i] << std::endl;
+        std::cout << historique[i] << std::endl;
     }
 }
 
 void Compte::consulterDebits(void) {
     std::cout << "Liste des debits : " << std::endl;
     for(size_t i=0;i<this->historique.size(); i++){
-        if(historique[i]->getSomme()<0){std::cout <<*historique[i] << std::endl;}
+        if(historique[i].getSomme()<0){std::cout <<historique[i] << std::endl;}
     }
 }
 
 void Compte::consulterCredits(void) {
     std::cout << "Liste des credits : " << std::endl;
     for(size_t i=0;i<this->historique.size(); i++){
-        if(historique[i]->getSomme()>0){std::cout << *historique[i] << std::endl;}
+        if(historique[i].getSomme()>0){std::cout << historique[i] << std::endl;}
     }
 }
 
 
-Compte::Compte(Personne *client, Personne *conseiller) {
-    this->client = client;
-    this->conseiller = conseiller;
-    this->solde=0;
-}
+//Compte::Compte(Client client, Conseiller conseiller)
+
 
 Compte::~Compte() {
-    std::cout << "Suppression du compte ..." << std::endl;
-    
-    for(Operation* op : historique){
+    /*for(Operation op : historique){
         //std::cout << "Test : " << this->historique[i] <<std::endl;
-        delete op;
+        delete op.get();
         //this->historique.erase(historique.begin() + i);
 
-    }
+    }*/
     historique.clear();
-    this->client->supprimerCompte(this);
-    this->conseiller->supprimerCompte(this);
+    this->client->Personne::supprimerCompte(this);
+    if(this->conseiller !=NULL){
+    this->conseiller->Personne::supprimerCompte(this);
+    }
     std::cout << "Compte supprime" << std::endl;
 
 }
 
 std::ostream& operator<<(std::ostream& Str, Compte& compte){
-    return Str << "Client:[" << *compte.getClient() <<"] Conseiller:[" << *compte.getConseiller() << "] Solde:["<< std::fixed << std::setprecision(2) << compte.getSolde() <<"]";
+    return Str << "Client:[" << compte.getClient() <<"] Conseiller:[" << compte.getConseiller() << "] Solde:["<< std::fixed << std::setprecision(2) << compte.getSolde() <<"]";
+}
+
+OperationRecurrente::OperationRecurrente(std::string date, std::string nom, float somme, int recurrence, Compte * compte):Operation(date,  nom, somme)
+{   this->compte = compte;
+    this->recur = recurrence;
+    this->actif = true;
+    this->count = 0;
+
+    this->activerRecurrence();
+
+    
+}
+
+void OperationRecurrente::recurrenceActive(void) {
+    while (this->actif) {
+        std::cout << "Opération recurrente : "; 
+         if (this->nom == "Depot") {
+            std::cout << "depot de ";
+            this->compte->deposer(somme);
+        } else if (this->nom == "Retrait") {
+            std::cout << "retait de " ;
+            this->compte->retirer(somme);
+        }
+        std::cout << somme << std::endl;
+        this->count++;
+        std::cout << " c'est l'opération n " << count << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(recur*1000));
+       //usleep(recur * 1000000);
+       
+    }
+}
+
+void OperationRecurrente::activerRecurrence(void) {
+    this->actif = true;
+    std::thread t(&OperationRecurrente::recurrenceActive, this);
+    //t.join();
+    t.detach();
+
+}
+
+void OperationRecurrente::annulerRecurrence(void) {
+    std::cout << "Annulation de la recurrence"<<std::endl;
+    this->actif = false;
+}
+
+OperationRecurrente::~OperationRecurrente(){
+    annulerRecurrence();
+    std::cout << "Operation recurrente supprimee" << std::endl;
 }

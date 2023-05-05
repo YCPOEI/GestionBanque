@@ -7,7 +7,7 @@ class CompteEpargne : public Compte {
     private:
         float interet;
     public:
-        CompteEpargne(Personne *client, Personne *conseiller, float interet): Compte(client, conseiller), interet(interet){};
+        CompteEpargne(Client * client, Conseiller * conseiller, float interet): Compte(client, conseiller), interet(interet){};
         float getInteret(void);
         float calculInteret();
 };

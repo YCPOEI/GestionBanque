@@ -1,9 +1,11 @@
-#ifndef PERSONNE
-#define PERSONNE
+#ifndef BANQUE_PERSONNE
+#define BANQUE_PERSONNE
 #include <string>
 #include <iostream>
 #include <vector>
 #include "compte.h"
+#include "smart_pointer.h"
+
 
 class Compte;
 
@@ -21,7 +23,9 @@ class Personne {
         std::string getAdresse();
         std::vector<Compte*> getListeCompte();
         void setAdresse(std::string adresse);
-        void ajouterCompte(Compte* compte);
+        void ajouterCompte(Compte *  compte){
+            this->liste_compte.push_back(compte);
+        }
         void afficherComptes();
         void supprimerCompte(Compte * compte);
 };

@@ -34,15 +34,11 @@ std::vector<Compte*> Personne::getListeCompte(){
     return this->liste_compte;
 }
 
-void Personne::ajouterCompte(Compte* compte){
-    this->liste_compte.push_back(compte);
-}
-
 
 void Personne::afficherComptes(){
     for(Compte *c:this->liste_compte)
     {
-        std::cout << *c << std::endl;
+        std::cout << "Compte :" << c << std::endl;
         //std::cout << "operations : ";
         //c->consulterOperations();
         //std::cout << std::endl;
@@ -51,9 +47,10 @@ void Personne::afficherComptes(){
 
 void Personne::supprimerCompte(Compte * compte){
     for (size_t i=0;i<liste_compte.size();i++){
-        if(liste_compte[i]==compte){
+        if((liste_compte[i]) == compte){
             liste_compte[i]=nullptr;
             //std::cout << "Pointertodelete: " << this->liste_compte[i] << std::endl;
+
             liste_compte.erase(liste_compte.begin() +i);
             break;
         }
@@ -69,10 +66,15 @@ std::ostream& operator<<(std::ostream& Str, Personne& personne){
 */
 
 Client::~Client(){
-    for (Compte* cpt : liste_compte){
+    /*for (SP<Compte> *cpt : liste_compte){
+        std::cout << "Delete compte" << &cpt<< std::endl;
         delete cpt;
+    }*/
+    for (int i=0; i<(int) liste_compte.size();i++){
+        delete (liste_compte[i]);
     }
-    liste_compte.clear();
+
+    //liste_compte.clear();
 
     std::cout << "Client supprime" << std::endl;
 }
