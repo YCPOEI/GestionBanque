@@ -11,17 +11,17 @@ build : $(BLD)main.exe
 $(BLD)main.exe : $(OBJ)main.o $(patsubst $(SRC)%.cpp, $(OBJ)%.o, $(wildcard $(SRC)*.cpp))
 	@echo "Building executable"
 	@mkdir -p $(BLD)
-	@$(CPPC) $(CFLAGS) $^ -o $@
+	@$(CPPC) $(CFLAGS) $^ -o $@ -lsqlite3
 
 $(OBJ)main.o : main.cpp
 	@echo "Compiling $@"
 	@mkdir -p $(OBJ)
-	@$(CPPC) $(CFLAGS) -c $^ -o $@ -I $(HDR)
+	@$(CPPC) $(CFLAGS) -c $^ -o $@ -I $(HDR) -lsqlite3
 
 $(OBJ)%.o : $(SRC)%.cpp
 	@echo "Compiling $@"
 	@mkdir -p $(OBJ)
-	@$(CPPC) $(CFLAGS) -c $^ -o $@ -I $(HDR)
+	@$(CPPC) $(CFLAGS) -c $^ -o $@ -I $(HDR) -lsqlite3
 
 clean :
 	@echo "Cleaning project"
@@ -33,7 +33,7 @@ reset :
 
 lib:
 	@echo "Compilation de la librairie"
-	@g++ -Wall -Wextra -shared -o Db.o src/Db.cpp -I Db.h
+	@g++ -Wall -Wno-unused -Wextra -shared -o Db.o src/Db.cpp -I Db.h -lsqlite3
 
 	@echo "Comression de la librairie"
 	@ar -rsc Db.a Db.o

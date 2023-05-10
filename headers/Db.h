@@ -3,6 +3,7 @@
 #include "personne.h"
 #include <vector>
 #include <string>
+#include <cstring>
 
 
 class Db
@@ -20,16 +21,16 @@ class Db
         static int new_client(Client * c);
         static int delete_client(Client * c);
         static Client * get_Client(int ID);
-        static std::vector<Client *> get_Client(std::string firstname, std::string name);
-        static std::vector<Client *> get_Client();
+        static std::vector<Client *> * get_Client(std::string firstname, std::string name);
+        static std::vector<Client *> * get_Client();
 
         //Conseiller
         static int new_conseiller(Conseiller * c);
         static int delete_conseiller(Conseiller * c);
-        static Conseiller get_Conseiller(int ID);
-        static std::vector<Conseiller *> get_Conseiller(std::string firstname, std::string name);
-        static std::vector<Conseiller *> get_Conseiller();
-
+        static Conseiller * get_Conseiller(int ID);
+        static std::vector<Conseiller *> * get_Conseiller(std::string firstname, std::string name);
+        static std::vector<Conseiller *> * get_Conseiller();
+        /*
         //Compte
         static int new_compte(Compte c);
         static int delete_compte(Compte c);
@@ -44,5 +45,5 @@ class Db
         static int delete_ope(Compte c);
         static Operation * get_ope(int ID);
         static std::vector<Operation *> get_ope(Compte c);
-
+        */
 };

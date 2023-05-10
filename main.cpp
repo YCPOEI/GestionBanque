@@ -77,13 +77,14 @@ int main() {
     
 
     // TEST thread
+    /*
     cout << endl << "####Fonctions TEST#####" << endl;
     OperationRecurrente test1 = OperationRecurrente("05/05/2023","Depot",100.0f,3,compteSt);
     std::cout << "Lance la pause" << std::endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(5*1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1*1000));
     std::cout << "reprends le thread" << std::endl;
     test1.annulerRecurrence();
-    compteSt->consulterSolde();
+    compteSt->consulterSolde();*/
 
     cout << endl << "####Partie BDD#####" << endl;
 
@@ -94,28 +95,28 @@ int main() {
     Db::new_conseiller(new Conseiller("Cottrel", "Yoan(mais mieux)", "St. Nazaire"));
     Db::new_conseiller(new Conseiller("Cottrel", "Yoan(mais pire)", "St. Nazaire"));
     cout << endl << "####Liste des conseillers#####" << endl;
-    SP<vector<Conseiller *>> consList=new SP<vector<Conseiller *>>(Db::get_Conseiller());
-    for(int i=0;i<consList.get()->size();i++){
-        cout << &consList.get()[i] <<endl;
+    vector<Conseiller *> *consList=Db::get_Conseiller();
+    for(int i=0;i<(int)consList->size();i++){
+        cout << *(*consList)[i] <<endl;
     }
 
     cout << endl << "####Liste des clients#####" << endl;
-    vector<Client *> clientList=vector<Client *>(Db::get_Client());
-    for(int i=0;i<clientList.size();i++){
-        cout << &clientList.[i] <<endl;
+    vector<Client *> * clientList=Db::get_Client();
+    for(int i=0;i<(int)clientList->size();i++){
+        cout << *(*clientList)[i] <<endl;
     }
 
     cout << endl << "####Juste le 1er client#####" << endl;
     Client * cliBdd1=Db::get_Client(1);
-    cout << cliBdd1<<endl;
+    cout << *cliBdd1<<endl;
 
     cout << endl << "####Emmanuel, ou es tu!?#####" << endl;
-    SP<vector<Client *>> cliBdd2=new SP<vector<Client *>> (Db::get_Client("Rochet","Emmanuel"));
-    for(int i=0;i<cliBdd2.get()->size();i++){
-        cout << &cliBdd2.get()[i] <<endl;
+    vector<Client *> * cliBdd2=Db::get_Client("Rochet","Emmanuel");
+    for(int i=0;i<(int)cliBdd2->size();i++){
+        cout << *(*cliBdd2)[i] <<endl;
     }
 
-
+    Db::reset();
     //afficheMenu();
 
 /*
