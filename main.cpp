@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "headers/menu.h"
+#include "headers/Db.h"
 
 
 using namespace std;
@@ -84,8 +85,38 @@ int main() {
     test1.annulerRecurrence();
     compteSt->consulterSolde();
 
+    cout << endl << "####Partie BDD#####" << endl;
 
-    afficheMenu();
+    Db::create();
+    Db::new_client(cli1.get());
+    Db::new_client(cli2.get());
+    Db::new_conseiller(cons.get());
+    Db::new_conseiller(new Conseiller("Cottrel", "Yoan(mais mieux)", "St. Nazaire"));
+    Db::new_conseiller(new Conseiller("Cottrel", "Yoan(mais pire)", "St. Nazaire"));
+    cout << endl << "####Liste des conseillers#####" << endl;
+    SP<vector<Conseiller *>> consList=new SP<vector<Conseiller *>>(Db::get_Conseiller());
+    for(int i=0;i<consList.get()->size();i++){
+        cout << &consList.get()[i] <<endl;
+    }
+
+    cout << endl << "####Liste des clients#####" << endl;
+    vector<Client *> clientList=vector<Client *>(Db::get_Client());
+    for(int i=0;i<clientList.size();i++){
+        cout << &clientList.[i] <<endl;
+    }
+
+    cout << endl << "####Juste le 1er client#####" << endl;
+    Client * cliBdd1=Db::get_Client(1);
+    cout << cliBdd1<<endl;
+
+    cout << endl << "####Emmanuel, ou es tu!?#####" << endl;
+    SP<vector<Client *>> cliBdd2=new SP<vector<Client *>> (Db::get_Client("Rochet","Emmanuel"));
+    for(int i=0;i<cliBdd2.get()->size();i++){
+        cout << &cliBdd2.get()[i] <<endl;
+    }
+
+
+    //afficheMenu();
 
 /*
     cout<< endl  << "####Suppression d'un client#####" << endl;
